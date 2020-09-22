@@ -1,0 +1,36 @@
+# 14_10_onehot_encoding_per_word.py
+import numpy as np
+'''
+신경망(Neural Net)은 크게 2가지로 나눔
+1. CNN(Convolution) : 이미지 처리
+2. RNN(Recurrent) : 순환 신경망, 시계열 데이터(주식 시세, 집값)
+자연어 처리 : 
+
+'''
+
+# 문자열을 숫자화 : 단어 수준의 One-hot-encoding
+sentences = ['tensorflow makes machine learning easy', 'machine learning is easy']
+
+# 단어 사전(BOW : bag of words)
+word_dict = {}
+for sentence in sentences:
+    for word in sentence.split():
+        if word not in word_dict:
+            # 번호 0은 내부처리용으로 사용되므로 1부터 시작한다.
+            word_dict[word] = len(word_dict) + 1
+
+print(len(word_dict))
+print(word_dict)
+
+max_length = 10
+sentences_length = len(sentences)
+dict_size = max(word_dict.values()) + 1 # 사전의 크기
+results = np.zeros([sentences_length, max_length, dict_size])
+print(results)
+
+for ii, sample in enumerate(sentences):
+    for kk, word in list(enumerate(sample.split())):
+        index = word_dict.get(word)
+        results[ii, kk, index] = 1
+
+print(results)
